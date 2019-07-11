@@ -1,0 +1,31 @@
+server:
+  port: 8080
+
+spring:
+  datasource:
+    username: root
+    password: Password00
+    url: jdbc:mysql://118.25.184.62:3306/ringball_db?serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://118.25.184.62:27017/Ringball
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+  devtools:
+    restart:
+      enabled: true
+
+mybatis:
+  mapper-locations: classpath:mapping/biz/*Mapper.xml,classpath:mapping/sys/*Mapper.xml,classpath:mapping/common/*Mapper.xml
+  type-aliases-package: com.ringball.dao
+#  configuration: classpath:Mybatis-Configuration.xml
+
+#showSql
+logging:
+  level:
+    com:
+      ai:
+        ringball : trace

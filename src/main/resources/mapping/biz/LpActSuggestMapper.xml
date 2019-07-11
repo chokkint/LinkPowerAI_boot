@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpActSuggestMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpActSuggest">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="SALES_ID" property="salesId" jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="ACT_TYPE" property="actType" jdbcType="VARCHAR" />
+		<result column="ACT_GENERATE_DATE" property="actGenerateDate" jdbcType="TIMESTAMP" />
+		<result column="ACT_EXPIRE_DATE" property="actExpireDate" jdbcType="TIMESTAMP" />
+		<result column="ACT_DESCRIPTION" property="actDescription" jdbcType="VARCHAR" />
+		<result column="ACT_ARTICLE_TITLE" property="actArticleTitle" jdbcType="VARCHAR" />
+		<result column="ACT_ARTICLE_LINK" property="actArticleLink" jdbcType="VARCHAR" />
+		<result column="ACT_SOURCE_TYPE" property="actSourceType" jdbcType="VARCHAR" />
+		<result column="ACT_SOURCE_CONTENT" property="actSourceContent" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="ISUSED" property="isused" jdbcType="VARCHAR" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, SALES_ID, CUST_ID, ACT_TYPE, ACT_GENERATE_DATE, ACT_EXPIRE_DATE,
+		ACT_DESCRIPTION, ACT_ARTICLE_TITLE, ACT_ARTICLE_LINK, ACT_SOURCE_TYPE,
+		ACT_SOURCE_CONTENT, CREATE_DATE, UPDATE_DATE, ISUSED, STATUS
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_ACT_SUGGEST
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from LP_ACT_SUGGEST
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.ai.ringball.dao.biz.LpActSuggest">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_ACT_SUGGEST (
+			ID, SALES_ID, CUST_ID,
+			ACT_TYPE, ACT_GENERATE_DATE, ACT_EXPIRE_DATE,
+			ACT_DESCRIPTION, ACT_ARTICLE_TITLE, ACT_ARTICLE_LINK,
+			ACT_SOURCE_TYPE, ACT_SOURCE_CONTENT, CREATE_DATE,
+			UPDATE_DATE, ISUSED, STATUS
+		)
+		values (
+			#{id,jdbcType=VARCHAR},
+			#{salesId,jdbcType=VARCHAR},
+			#{custId,jdbcType=VARCHAR},
+			#{actType,jdbcType=VARCHAR},
+			#{actGenerateDate,jdbcType=TIMESTAMP},
+			#{actExpireDate,jdbcType=TIMESTAMP},
+			#{actDescription,jdbcType=VARCHAR},
+			#{actArticleTitle,jdbcType=VARCHAR},
+			#{actArticleLink,jdbcType=VARCHAR},
+			#{actSourceType,jdbcType=VARCHAR},
+			#{actSourceContent,jdbcType=VARCHAR},
+			#{createDate,jdbcType=TIMESTAMP},
+			#{updateDate,jdbcType=TIMESTAMP},
+			#{isused,jdbcType=VARCHAR},
+			#{status,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.ai.ringball.dao.biz.LpActSuggest">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_ACT_SUGGEST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="salesId != null">
+				SALES_ID,
+			</if>
+			<if test="custId != null">
+				CUST_ID,
+			</if>
+			<if test="actType != null">
+				ACT_TYPE,
+			</if>
+			<if test="actGenerateDate != null">
+				ACT_GENERATE_DATE,
+			</if>
+			<if test="actExpireDate != null">
+				ACT_EXPIRE_DATE,
+			</if>
+			<if test="actDescription != null">
+				ACT_DESCRIPTION,
+			</if>
+			<if test="actArticleTitle != null">
+				ACT_ARTICLE_TITLE,
+			</if>
+			<if test="actArticleLink != null">
+				ACT_ARTICLE_LINK,
+			</if>
+			<if test="actSourceType != null">
+				ACT_SOURCE_TYPE,
+			</if>
+			<if test="actSourceContent != null">
+				ACT_SOURCE_CONTENT,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="isused != null">
+				ISUSED,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="salesId != null">
+				#{salesId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+				#{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="actType != null">
+				#{actType,jdbcType=VARCHAR},
+			</if>
+			<if test="actGenerateDate != null">
+				#{actGenerateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actExpireDate != null">
+				#{actExpireDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actDescription != null">
+				#{actDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="actArticleTitle != null">
+				#{actArticleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="actArticleLink != null">
+				#{actArticleLink,jdbcType=VARCHAR},
+			</if>
+			<if test="actSourceType != null">
+				#{actSourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="actSourceContent != null">
+				#{actSourceContent,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isused != null">
+				#{isused,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ai.ringball.dao.biz.LpActSuggest">
+		update LP_ACT_SUGGEST
+		<set>
+			<if test="salesId != null">
+				SALES_ID = #{salesId,jdbcType=VARCHAR},
+			</if>
+			<if test="custId != null">
+				CUST_ID = #{custId,jdbcType=VARCHAR},
+			</if>
+			<if test="actType != null">
+				ACT_TYPE = #{actType,jdbcType=VARCHAR},
+			</if>
+			<if test="actGenerateDate != null">
+				ACT_GENERATE_DATE = #{actGenerateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actExpireDate != null">
+				ACT_EXPIRE_DATE = #{actExpireDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="actDescription != null">
+				ACT_DESCRIPTION = #{actDescription,jdbcType=VARCHAR},
+			</if>
+			<if test="actArticleTitle != null">
+				ACT_ARTICLE_TITLE = #{actArticleTitle,jdbcType=VARCHAR},
+			</if>
+			<if test="actArticleLink != null">
+				ACT_ARTICLE_LINK = #{actArticleLink,jdbcType=VARCHAR},
+			</if>
+			<if test="actSourceType != null">
+				ACT_SOURCE_TYPE = #{actSourceType,jdbcType=VARCHAR},
+			</if>
+			<if test="actSourceContent != null">
+				ACT_SOURCE_CONTENT = #{actSourceContent,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="isused != null">
+				ISUSED = #{isused,jdbcType=VARCHAR},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.ai.ringball.dao.biz.LpActSuggest">
+		update LP_ACT_SUGGEST
+		set SALES_ID = #{salesId,jdbcType=VARCHAR},
+			CUST_ID = #{custId,jdbcType=VARCHAR},
+			ACT_TYPE = #{actType,jdbcType=VARCHAR},
+			ACT_GENERATE_DATE = #{actGenerateDate,jdbcType=TIMESTAMP},
+			ACT_EXPIRE_DATE = #{actExpireDate,jdbcType=TIMESTAMP},
+			ACT_DESCRIPTION = #{actDescription,jdbcType=VARCHAR},
+			ACT_ARTICLE_TITLE = #{actArticleTitle,jdbcType=VARCHAR},
+			ACT_ARTICLE_LINK = #{actArticleLink,jdbcType=VARCHAR},
+			ACT_SOURCE_TYPE = #{actSourceType,jdbcType=VARCHAR},
+			ACT_SOURCE_CONTENT = #{actSourceContent,jdbcType=VARCHAR},
+			CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			ISUSED = #{isused,jdbcType=VARCHAR},
+			STATUS = #{status,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from LP_ACT_SUGGEST
+	</select>
+
+	<update id="updateWechatStatus" parameterType="map">
+		update LP_DS_WECHAT W
+		set W.ISUSED = #{isused,jdbcType=VARCHAR},
+			W.UPDATE_DATE = date_format(now(), '%Y-%m-%d %H:%i:%s')
+		where W.CUST_ID != '999999999'
+		AND W.ISUSED = #{isusedOld,jdbcType=VARCHAR}
+		AND date_format(W.MOMENT_DATE, '%Y%m%d') = #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND W.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND W.CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</update>
+
+	<insert id="insertRecords" parameterType="map">
+		INSERT INTO LP_ACT_SUGGEST (
+			ID,
+			SALES_ID,
+			CUST_ID,
+			ACT_TYPE,
+			ACT_GENERATE_DATE,
+			ACT_EXPIRE_DATE,
+			ACT_DESCRIPTION,
+			ACT_ARTICLE_TITLE,
+			ACT_ARTICLE_LINK,
+			ACT_SOURCE_TYPE,
+			ACT_SOURCE_CONTENT,
+			CREATE_DATE,
+			UPDATE_DATE,
+			ISUSED,
+			STATUS
+		)
+
+		SELECT replace(uuid(), '-', '') AS ID,
+			SC.SALES_ID AS SALES_ID,
+			W.CUST_ID AS CUST_ID,
+			#{_actType,jdbcType=VARCHAR} AS ACT_TYPE,
+			date_format(W.MOMENT_DATE, '%Y-%m-%d') AS ACT_GENERATE_DATE,
+			date_format(${_actExpireDateSql}, '%Y-%m-%d') AS ACT_EXPIRE_DATE,
+			concat(CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END, CASE WHEN C.SEX = 'M' THEN '先生' WHEN C.SEX = 'F' THEN '女士' ELSE '' END, #{_actText,jdbcType=VARCHAR}) AS ACT_DESCRIPTION,
+			W.MOMENT_LINK AS ACT_ARTICLE_TITLE,
+			'' AS ACT_ARTICLE_LINK,
+			'1' AS ACT_SOURCE_TYPE,
+			concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) AS ACT_SOURCE_CONTENT,
+			now() AS CREATE_DATE,
+			now() AS UPDATE_DATE,
+			'0' AS ISUSED,
+			'1' AS STATUS
+
+		FROM LP_DS_WECHAT W
+		LEFT JOIN (select * from LP_MGNT_CUST_MST where STATUS = '1') C ON W.CUST_ID = C.ID
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON W.CUST_ID = SC.CUST_ID
+		WHERE 1 = 1
+		AND W.ISUSED = '2'
+		AND W.CUST_ID != '999999999'
+		AND date_format(W.MOMENT_DATE, '%Y%m%d') = #{dataDate,jdbcType=VARCHAR}
+		
+		<if test="custId != null and custId != ''">
+			AND W.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+		</if>
+		<if test="_likeSql != null and _likeSql != ''">
+			AND (${_likeSql})
+		</if>
+	</insert>
+	
+	<select id="selectMongoData" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		SELECT replace(uuid(), '-', '') AS suggest_id,
+			SC.SALES_ID AS sales_id,
+			W.CUST_ID AS cust_id,
+			IFNULL(ATY.TYPE_ID, '') AS act_type_id,
+			IFNULL(ATY.ACT_NM, '') AS act_nm,
+			IFNULL(ATY.ACT_EVENT, '') AS act_event,
+			IFNULL(ATY.ACT_IMG, '') AS act_img,
+			date_format(W.MOMENT_DATE, '%Y-%m-%d') AS act_generate_date,
+			date_format(${_actExpireDateSql}, '%Y-%m-%d') AS act_expire_date,
+			concat(CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END, CASE WHEN C.SEX = 'M' THEN '先生' WHEN C.SEX = 'F' THEN '女士' ELSE '' END, #{_actText,jdbcType=VARCHAR}) AS act_description,
+			W.MOMENT_LINK AS act_article_title,
+			'' AS act_article_link,
+			'1' AS act_source_type,
+			concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) AS act_source_content,
+			date_format(now(), '%Y-%m-%d %H:%i:%s') AS create_date,
+			date_format(now(), '%Y-%m-%d %H:%i:%s') AS update_date,
+			'0' AS isused,
+			'1' AS status,
+			'' AS act_feedback_date,
+			'' AS act_feedback,
+			'' AS act_followup_date,
+			'' AS act_followup_type
+
+		FROM LP_DS_WECHAT W
+		LEFT JOIN (select * from LP_MGNT_CUST_MST where STATUS = '1') C ON W.CUST_ID = C.ID
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON W.CUST_ID = SC.CUST_ID
+		LEFT JOIN LP_ACT_TYPE ATY ON ATY.TYPE_ID = #{_actType,jdbcType=VARCHAR}
+		WHERE 1 = 1
+		AND W.ISUSED = '2'
+		AND W.CUST_ID != '999999999'
+		AND date_format(W.MOMENT_DATE, '%Y%m%d') = #{dataDate,jdbcType=VARCHAR}
+		
+		<if test="custId != null and custId != ''">
+			AND W.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+		</if>
+		<if test="_likeSql != null and _likeSql != ''">
+			AND (${_likeSql})
+		</if>
+	</select>
+</mapper>

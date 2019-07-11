@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpMgntIndexMstMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpMgntIndexMst">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="INDEX_TYPE" property="indexType" jdbcType="VARCHAR" />
+		<result column="INDEX_CODE" property="indexCode" jdbcType="VARCHAR" />
+		<result column="INDEX_NAME" property="indexName" jdbcType="VARCHAR" />
+		<result column="INDEX_SQL" property="indexSql" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, INDEX_TYPE, INDEX_CODE, INDEX_NAME, INDEX_SQL, CREATE_DATE,
+		UPDATE_DATE
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_MGNT_INDEX_MST
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from LP_MGNT_INDEX_MST
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.ai.ringball.dao.biz.LpMgntIndexMst">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_MGNT_INDEX_MST (
+			ID, INDEX_TYPE, INDEX_CODE,
+			INDEX_NAME, INDEX_SQL, CREATE_DATE,
+			UPDATE_DATE
+		)
+		values (
+			#{id,jdbcType=VARCHAR},
+			#{indexType,jdbcType=VARCHAR},
+			#{indexCode,jdbcType=VARCHAR},
+			#{indexName,jdbcType=VARCHAR},
+			#{indexSql,jdbcType=VARCHAR},
+			#{createDate,jdbcType=TIMESTAMP},
+			#{updateDate,jdbcType=TIMESTAMP}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.ai.ringball.dao.biz.LpMgntIndexMst">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_MGNT_INDEX_MST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="indexType != null">
+				INDEX_TYPE,
+			</if>
+			<if test="indexCode != null">
+				INDEX_CODE,
+			</if>
+			<if test="indexName != null">
+				INDEX_NAME,
+			</if>
+			<if test="indexSql != null">
+				INDEX_SQL,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="indexType != null">
+				#{indexType,jdbcType=VARCHAR},
+			</if>
+			<if test="indexCode != null">
+				#{indexCode,jdbcType=VARCHAR},
+			</if>
+			<if test="indexName != null">
+				#{indexName,jdbcType=VARCHAR},
+			</if>
+			<if test="indexSql != null">
+				#{indexSql,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ai.ringball.dao.biz.LpMgntIndexMst">
+		update LP_MGNT_INDEX_MST
+		<set>
+			<if test="indexType != null">
+				INDEX_TYPE = #{indexType,jdbcType=VARCHAR},
+			</if>
+			<if test="indexCode != null">
+				INDEX_CODE = #{indexCode,jdbcType=VARCHAR},
+			</if>
+			<if test="indexName != null">
+				INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+			</if>
+			<if test="indexSql != null">
+				INDEX_SQL = #{indexSql,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.ai.ringball.dao.biz.LpMgntIndexMst">
+		update LP_MGNT_INDEX_MST
+		set INDEX_TYPE = #{indexType,jdbcType=VARCHAR},
+			INDEX_CODE = #{indexCode,jdbcType=VARCHAR},
+			INDEX_NAME = #{indexName,jdbcType=VARCHAR},
+			INDEX_SQL = #{indexSql,jdbcType=VARCHAR},
+			CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from LP_MGNT_INDEX_MST
+		where 1 = 1
+		and INDEX_TYPE IN (
+			select TYPE_CODE from LP_MGNT_INDEX_TYPE_MST
+		)
+		<if test="indexType != null and indexType != ''">
+			AND INDEX_TYPE = #{indexType,jdbcType=VARCHAR}
+		</if>
+		<if test="indexCode != null and indexCode != ''">
+			AND INDEX_CODE = #{indexCode,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

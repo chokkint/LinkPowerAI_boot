@@ -1,0 +1,53 @@
+
+/*-- Bootstrap 3.3.7 */
+@import url("../adminLTE/bootstrap/css/bootstrap.min.css");
+
+/*-- 引入Bootstrap-table -- */
+@import url("../plug_in/bootstrap-table/bootstrap-table.css");
+
+/*-- 引入bootstrap-select -- */
+@import url("../plug_in/bootstrap-select/bootstrap-select.min.css");
+
+/*-- Font Awesome */
+@import url("../adminLTE/plugins/font-awesome/4.5.0/css/font-awesome.min.css");
+
+/*-- Ionicons */
+@import url("../adminLTE/plugins/ionicons/2.0.1/css/ionicons.min.css");
+
+/*-- Theme style */
+@import url("../adminLTE/dist/css/AdminLTE.css");
+
+/*-- daterangepicker */
+@import url("../adminLTE/plugins/daterangepicker/daterangepicker.css");
+
+/*-- datepicker3 */
+@import url("../adminLTE/plugins/datepicker/datepicker3.css");
+
+/*-- iCheck-blue */
+@import url("../adminLTE/plugins/iCheck/square/blue.css");
+
+/*-- iCheck-all */
+@import url("../adminLTE/plugins/iCheck/all.css");
+
+/*-- bootstrap-colorpicker */
+@import url("../adminLTE/plugins/colorpicker/bootstrap-colorpicker.min.css");
+
+/*-- bootstrap-timepicker */
+@import url("../adminLTE/plugins/timepicker/bootstrap-timepicker.min.css");
+
+/*-- iCheck */
+@import url("../adminLTE/dist/css/skins/_all-skins.min.css");
+
+/*-- WEB COMMON CSS */
+@import url("indexNew.css");
+
+@import url("../js/easyui/themes/default/easyui.css");
+@import url("../js/easyui/themes/icon.css");
+@import url("./flick/jquery-ui-1.10.2.custom.min.css");
+@import url("./zTreeStyle/zTreeStyle.css");
+
+/*-- SweetAlert2 */
+@import url("../plug_in/sweetalert2/sweetalert2.css");
+
+/*-- toastr */
+@import url("../plug_in/toastr/toastr.css");

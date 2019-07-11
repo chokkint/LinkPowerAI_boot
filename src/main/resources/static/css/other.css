@@ -1,0 +1,94 @@
+@CHARSET "UTF-8";
+.titleButton{background-image: url("../images/icons.png");}
+
+.titleButton.addUser{ background-position: -32px -192px; width: 16px; height: 16px; }
+.titleButton.editUser{ background-position: -32px -224px; width: 14px; height: 16px; } 
+.titleButton.delUser{ background-position: -32px -256px; width: 16px; height: 16px; }
+
+.titleButton.sprite-16-archive{ background-position: 0 -28px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-arrow-down{ background-position: 0 -60px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-arrow-left{ background-position: 0 -92px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-arrow-right{ background-position: 0 -124px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-arrow-up{ background-position: 0 -156px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-circle-blue{ background-position: 0 -188px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-circle-green{ background-position: 0 -220px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-circle-orange{ background-position: 0 -252px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-clock{ background-position: 0 -284px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-cube-blue{ background-position: 0 -316px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-cube-green{ background-position: 0 -348px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-cube-orange{ background-position: 0 -380px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-em-cross{ background-position: 0 -444px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-em-down{ background-position: 0 -476px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-em-open{ background-position: 0 -508px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-em-pencil{ background-position: 0 -540px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-em-plus{ background-position: 0 -572px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-gold-l{ background-position: 0 -604px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-gold-m{ background-position: 0 -636px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-gold-s{ background-position: 0 -668px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-gold-xs{ background-position: 0 -700px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-gold-xxs{ background-position: 0 -732px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-red-l{ background-position: 0 -764px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-red-m{ background-position: 0 -796px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-red-s{ background-position: 0 -828px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-red-xs{ background-position: 0 -860px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-red-xxs{ background-position: 0 -892px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-silver-l{ background-position: 0 -924px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-silver-m{ background-position: 0 -956px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-silver-s{ background-position: 0 -988px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-silver-xs{ background-position: 0 -1020px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-heart-silver-xxs{ background-position: 0 -1052px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-image-add{ background-position: 0 -1084px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-image-check{ background-position: 0 -1116px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-image-remove{ background-position: 0 -1148px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-image{ background-position: 0 -1180px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-member-add{ background-position: 0 -1212px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-member-heart{ background-position: 0 -1244px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-member-profile{ background-position: 0 -1276px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-member-remove{ background-position: 0 -1308px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-member{ background-position: 0 -1340px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-message-info{ background-position: 0 -1372px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-message-warn{ background-position: 0 -1404px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-security-lock-open{ background-position: 0 -1468px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-security-lock{ background-position: 0 -1500px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-square-blue{ background-position: 0 -1532px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-square-green{ background-position: 0 -1564px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-square-orange{ background-position: 0 -1596px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-star-cold{ background-position: 0 -1628px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-star-hot{ background-position: 0 -1660px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-add{ background-position: 0 -1692px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-check{ background-position: 0 -1724px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-cold{ background-position: 0 -1756px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-cross{ background-position: 0 -1788px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-hot{ background-position: 0 -1820px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tag-pencil{ background-position: 0 -1852px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tool-a{ background-position: 0 -1884px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tool-b{ background-position: 0 -1916px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tool-c{ background-position: 0 -1948px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-tool-d{ background-position: 0 -1980px; width: 16px; height: 16px; } 
+.titleButton.sprite-16-zoom{ background-position: -32px 0; width: 16px; height: 16px; }
+
+.titleButton.outputExcel{ background-position: -32px -96px; width: 16px; height: 16px; } 
+.titleButton.inputExcel{ background-position: -32px -128px; width: 16px; height: 16px; }
+
+.titleButton.activateUser{ background-position: -32px -160px; width: 16px; height: 16px; }
+.titleButton.cancelActivateUser{ background-position: -32px -288px; width: 16px; height: 16px; } 
+.titleButton.access{ background-position: -32px -64px; width: 16px; height: 16px; } 
+.titleButton.key{ background-position: 0 -1436px; width: 16px; height: 16px; }
+.titleButton.roleManage{ background-position: -32px -384px; width: 16px; height: 16px; } 
+.titleButton.addRole{ background-position: -32px -416px; width: 16px; height: 16px; } 
+.titleButton.editRole{ background-position: -32px -448px; width: 16px; height: 16px; } 
+.titleButton.delRole{ background-position: -32px -480px; width: 16px; height: 16px; } 
+.titleButton.add{ background-position: -32px -32px; width: 16px; height: 16px; } 
+.titleButton.edit{ background-position: -32px -512px; width: 16px; height: 16px; } 
+.titleButton.del{ background-position: -32px -544px; width: 16px; height: 16px; } 
+.titleButton.outputText{ background-position: -32px -320px; width: 16px; height: 16px; }
+.titleButton.download{ background-position: -32px -352px; width: 16px; height: 16px; } 
+.titleButton.upload{ background-position: -32px -627px; width: 16px; height: 16px; }
+.titleButton.pass{ background-position: 0 -412px; width: 16px; height: 16px; }
+.titleButton.reject{ background-position: 0 0; width: 12px; height: 12px; } 
+
+.titleButton.error{background-image: url("../images/icons/error.png");}
+.titleButton.errorfuck{background-image: url("../images/icons/error_fuck.png");}
+.titleButton.refreshForward{background-image: url("../images/icons/refresh_forward.png");}
+.titleButton.refreshBackwards{background-image: url("../images/icons/refresh_backwards.png");}
+.titleButton.refresh{background-image: url("../images/icons/refresh.png");}

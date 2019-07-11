@@ -1,0 +1,509 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpDsModelDataMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpDsModelData">
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="DATA_DATE" property="dataDate" jdbcType="VARCHAR" />
+		<result column="SRC_FINAL" property="srcFinal" jdbcType="VARCHAR" />
+		<result column="IS_PHASE_CONTACT" property="isPhaseContact" jdbcType="VARCHAR" />
+		<result column="IS_PHASE_DEAL" property="isPhaseDeal" jdbcType="VARCHAR" />
+		<result column="SEX" property="sex" jdbcType="VARCHAR" />
+		<result column="MARRIAGE" property="marriage" jdbcType="VARCHAR" />
+		<result column="CHILD" property="child" jdbcType="VARCHAR" />
+		<result column="PARENT" property="parent" jdbcType="VARCHAR" />
+		<result column="INDUSTRY" property="industry" jdbcType="VARCHAR" />
+		<result column="PROFESSION" property="profession" jdbcType="VARCHAR" />
+		<result column="YEARLY_INCOME" property="yearlyIncome" jdbcType="DECIMAL" />
+		<result column="YEARLY_EXPENSE" property="yearlyExpense" jdbcType="DECIMAL" />
+		<result column="HOUSE" property="house" jdbcType="VARCHAR" />
+		<result column="HOUSE_LOAN" property="houseLoan" jdbcType="VARCHAR" />
+		<result column="CAR" property="car" jdbcType="VARCHAR" />
+		<result column="CAR_LOAN" property="carLoan" jdbcType="VARCHAR" />
+		<result column="HEALTH_CHECK_FIN" property="healthCheckFin" jdbcType="VARCHAR" />
+		<result column="SMOKE_FIN" property="smokeFin" jdbcType="VARCHAR" />
+		<result column="ALCOHOL_FIN" property="alcoholFin" jdbcType="VARCHAR" />
+		<result column="SICK" property="sick" jdbcType="VARCHAR" />
+		<result column="CREDIT" property="credit" jdbcType="VARCHAR" />
+		<result column="EXT_CITY" property="extCity" jdbcType="VARCHAR" />
+		<result column="EXT_AGE" property="extAge" jdbcType="VARCHAR" />
+		<result column="EXT_AGE_FROM" property="extAgeFrom" jdbcType="DECIMAL" />
+		<result column="EXT_AGE_TO" property="extAgeTo" jdbcType="DECIMAL" />
+		<result column="EXT_CONSUMPTION" property="extConsumption" jdbcType="VARCHAR" />
+		<result column="EXT_HAS_PUPIL" property="extHasPupil" jdbcType="VARCHAR" />
+		<result column="EXT_HAS_JUNIOR" property="extHasJunior" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_STOCK" property="extLikeStock" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_FINANCE" property="extLikeFinance" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_BANK" property="extLikeBank" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_CREDITCARD" property="extLikeCreditcard" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_BUSINESSTRIP" property="extLikeBusinesstrip" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_TRAVEL" property="extLikeTravel" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_HEALTH" property="extLikeHealth" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_CHILD" property="extLikeChild" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_DIDI" property="extLikeDidi" jdbcType="VARCHAR" />
+		<result column="EXT_LIKE_MAP" property="extLikeMap" jdbcType="VARCHAR" />
+		<result column="WECHAT_CITY_FIN" property="wechatCityFin" jdbcType="VARCHAR" />
+		<result column="MOMENT_DATE" property="momentDate" jdbcType="DATE" />
+		<result column="WECHAT_CNT_L1M" property="wechatCntL1m" jdbcType="DECIMAL" />
+		<result column="CHILD_EVT_CNT_L3M" property="childEvtCntL3m" jdbcType="DECIMAL" />
+		<result column="MAR_EVT_CNT_L3M" property="marEvtCntL3m" jdbcType="DECIMAL" />
+		<result column="EMO_EVT_CNT_L3M" property="emoEvtCntL3m" jdbcType="DECIMAL" />
+		<result column="FES_EVT_CNT_L3M" property="fesEvtCntL3m" jdbcType="DECIMAL" />
+		<result column="READ_DATE" property="readDate" jdbcType="DATE" />
+		<result column="CONTACT_CNT_L1M" property="contactCntL1m" jdbcType="DECIMAL" />
+		<result column="CONTACT_INI_CNT_L1M" property="contactIniCntL1m" jdbcType="DECIMAL" />
+		<result column="CONTACT_LEN_L1M" property="contactLenL1m" jdbcType="DECIMAL" />
+		<result column="CONTACT_INI_LEN_L1M" property="contactIniLenL1m" jdbcType="DECIMAL" />
+	</resultMap>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select * from LP_DS_MODEL_DATA
+	</select>
+	
+	<delete id="deleteRecords" parameterType="map">
+		DELETE FROM LP_DS_MODEL_DATA
+		WHERE DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</delete>
+	
+	<insert id="insertRecords" parameterType="map">
+		INSERT INTO LP_DS_MODEL_DATA (
+			CUST_ID, DATA_DATE, SRC_FINAL, IS_PHASE_CONTACT, IS_PHASE_DEAL, SEX, 
+			MARRIAGE, CHILD, PARENT, INDUSTRY, PROFESSION, YEARLY_INCOME, 
+			YEARLY_EXPENSE, HOUSE, HOUSE_LOAN, CAR, CAR_LOAN, HEALTH_CHECK_FIN, 
+			SMOKE_FIN, ALCOHOL_FIN, SICK, CREDIT, EXT_CITY, EXT_AGE, 
+			EXT_AGE_FROM, EXT_AGE_TO, EXT_CONSUMPTION, 
+			EXT_HAS_PUPIL, EXT_HAS_JUNIOR, EXT_LIKE_STOCK, 
+			EXT_LIKE_FINANCE, EXT_LIKE_BANK, EXT_LIKE_CREDITCARD, 
+			EXT_LIKE_BUSINESSTRIP, EXT_LIKE_TRAVEL, EXT_LIKE_HEALTH, 
+			EXT_LIKE_CHILD, EXT_LIKE_DIDI, EXT_LIKE_MAP, 
+			WECHAT_CITY_FIN, MOMENT_DATE, WECHAT_CNT_L1M, 
+			CHILD_EVT_CNT_L3M, MAR_EVT_CNT_L3M, EMO_EVT_CNT_L3M, 
+			FES_EVT_CNT_L3M, READ_DATE, CONTACT_CNT_L1M, 
+			CONTACT_INI_CNT_L1M, CONTACT_LEN_L1M, CONTACT_INI_LEN_L1M
+		)
+	
+		SELECT
+			C.ID AS CUST_ID,
+			#{dataDate,jdbcType=VARCHAR} AS DATA_DATE,
+			C.SRC AS SRC_FINAL,
+			C.PHASE AS IS_PHASE_CONTACT,
+			CASE WHEN C.PHASE IN ('2', '3') THEN '1' ELSE '0' END AS IS_PHASE_DEAL,
+			C.SEX,
+			C.MARRIAGE,
+			C.CHILD,
+			C.PARENT,
+			C.INDUSTRY,
+			C.PROFESSION,
+			IFNULL(ROUND(C.YEARLY_INCOME/10000, 2), 0) AS YEARLY_INCOME,
+			IFNULL(ROUND(C.YEARLY_EXPENSE/10000, 2), 0) AS YEARLY_EXPENSE,
+			C.HOUSE,
+			C.HOUSE_LOAN,
+			C.CAR,
+			C.CAR_LOAN,
+			C.HEALTH_CHECK AS HEALTH_CHECK_FIN,
+			C.SMOKE AS SMOKE_FIN,
+			C.ALCOHOL AS ALCOHOL_FIN,
+			C.SICK,
+			C.CREDIT,
+			C.EXT_CITY,
+			C.EXT_AGE,
+			C.EXT_AGE_FROM,
+			C.EXT_AGE_TO,
+			C.EXT_CONSUMPTION,
+			C.EXT_HAS_PUPIL,
+			C.EXT_HAS_JUNIOR,
+			C.EXT_LIKE_STOCK,
+			C.EXT_LIKE_FINANCE,
+			C.EXT_LIKE_BANK,
+			C.EXT_LIKE_CREDITCARD,
+			C.EXT_LIKE_BUSINESSTRIP,
+			C.EXT_LIKE_TRAVEL,
+			C.EXT_LIKE_HEALTH,
+			C.EXT_LIKE_CHILD,
+			C.EXT_LIKE_DIDI,
+			C.EXT_LIKE_MAP,
+			IFNULL(CM.C_LEVEL, '4') AS WECHAT_CITY_FIN,
+			now() AS MOMENT_DATE,
+			IFNULL( PP1.P_NUM, 0 ) AS WECHAT_CNT_L1M,
+			IFNULL( PP2.P_NUM, 0 ) AS CHILD_EVT_CNT_L3M,
+			IFNULL( PP3.P_NUM, 0 ) AS MAR_EVT_CNT_L3M,
+			IFNULL( PP4.P_NUM, 0 ) AS EMO_EVT_CNT_L3M,
+			IFNULL( PP5.P_NUM, 0 ) AS FES_EVT_CNT_L3M,
+			now() AS READ_DATE,
+			IFNULL( PP6.P_NUM, 0 ) AS CONTACT_CNT_L1M,
+			IFNULL( PP7.P_NUM, 0 ) AS CONTACT_INI_CNT_L1M,
+			IFNULL( PP8.P_NUM, 0 ) AS CONTACT_LEN_L1M,
+			IFNULL( PP9.P_NUM, 0 ) AS CONTACT_INI_LEN_L1M
+		
+		FROM LP_MGNT_CUST_MST C
+		LEFT JOIN LP_MGNT_CITY_MST CM ON replace(IFNULL(C.EXT_CITY , C.WECHAT_CITY), '市', '') LIKE CONCAT('%', replace(CM.CITY_NAME, '市', '') , '%')
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON C.ID = SC.CUST_ID
+		
+		LEFT JOIN (
+			SELECT W.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_WECHAT W 
+			WHERE W.CUST_ID != '999999999'
+			AND W.MOMENT_DATE > DATE_SUB( CURDATE(), INTERVAL 1 MONTH ) 
+			GROUP BY W.CUST_ID 
+		) PP1 ON C.ID = PP1.CUST_ID
+		
+		LEFT JOIN (
+			SELECT W.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_WECHAT W 
+			WHERE W.CUST_ID != '999999999'
+			AND W.MOMENT_DATE > DATE_SUB( CURDATE(), INTERVAL 3 MONTH ) 
+			AND (concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孕妇%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%胎儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孕吐%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孕期%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%妊娠%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%养胎%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%胎教%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%分娩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%产妇%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%顺产%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%产后%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%襁褓%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%哺乳%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%母乳%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%喂奶%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%哺乳期%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%吃奶%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%吃手%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%断奶%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶水%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%坐月子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%母乳喂养%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%辅食%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%米糊%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶瓶%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶嘴%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶粉%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早教%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早教%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%新生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早产%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%学步%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%学坐%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%长高%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%婴儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孩子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小孩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小孩子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%当妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小毛头%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%萌娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小盆友%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小团子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小东西%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小人儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%宝宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%婴幼儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%婴孩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%准妈妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%二胎%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%儿童%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小宝宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%毛头%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小天使%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小宝贝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%麻麻%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%粑粑%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%崽子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%接娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%宝妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶爸%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%闺女%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%女儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%丫头%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小丫头%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%大儿子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小女儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小孩儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%娃子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小儿子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%老大%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%老二%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%双胞胎%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%幼儿园%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%学前班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%带娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小小班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%中班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%大班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%托儿所%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%家长会%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%亲子会%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%低年级%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%亲子关系%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%家访%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%生下%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%要生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%生完%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%怀上%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%我生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%出生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%刚出生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%有娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%刚生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%生个%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%生育%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%生养%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%养育%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%抚养%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%养成%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%个子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孩童%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%幼小%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%幼童%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%独生子女%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%幼年%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%抱抱%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%玩橡皮泥%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%水晶泥%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%躲猫猫%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%检查作业%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小书包%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小嘴嘴%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%兴趣班%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小学%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%亲子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%宝贝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%娃娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小朋友%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小家伙%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%奶娃%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%贝亲%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%hegen%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%痱子粉%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%新安怡%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早教%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早教%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%betta%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%纸尿裤%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%母婴%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%蛋蛋%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%妞妞%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%豆豆%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%屁颠%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小妞%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%熊宝宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小屁股%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%屁屁%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%长牙%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%乳牙%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%爹地%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小男生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小女生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小男孩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%女孩儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小姑娘%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小菇凉%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小公主%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%男孩儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%玩具枪%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%不懂事%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%年幼%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%家有%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%同龄%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%年满%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%早熟%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%懂事%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%活泼可爱%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%天真无邪%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%天真烂漫%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%兴高采烈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%单亲%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%含辛茹苦%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%欢天喜地%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%高高兴兴%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%傻傻的%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%单亲家庭%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%抚育%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%人母%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%孩提%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%长大%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%乖宝宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%妈妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%爸爸%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%老妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%老爸%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%妹子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%母女%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%母子%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小妹妹%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%父母%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%父母亲%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%我养%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%阿妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%男孩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%女孩%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%乖乖%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%果果%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%毛毛%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%圆圆%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%拉拉%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%丫丫%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%糖糖%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%球球%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%大宝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%妈咪%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%嘟嘟%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%淘淘%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小马%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%果儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小豆豆%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%豆妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%笨笨%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%萌萌%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%贝贝%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%皮皮%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%涂涂%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%蛋爸%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%阳阳%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%淘妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%咪咪%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%乔乔%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%苗苗%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%宝贝儿%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%老母亲%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%成长%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月嫂%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%乐妈%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小升初%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%中小学%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%附小%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%上学%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%绘本%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%玩具%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%放学后%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%两兄弟%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%两姐妹%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%俩兄弟%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%俩姐妹%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%小手%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%写作业%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%做作业%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%一大一小%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%满月%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%月龄%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%周岁%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%娃%'
+			)
+
+			GROUP BY W.CUST_ID 
+		) PP2 ON C.ID = PP2.CUST_ID
+		
+		LEFT JOIN (
+			SELECT W.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_WECHAT W 
+			WHERE W.CUST_ID != '999999999'
+			AND W.MOMENT_DATE > DATE_SUB( CURDATE(), INTERVAL 3 MONTH ) 
+			AND (concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%领证%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%求婚%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%共度一生%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%携手%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%结婚%'
+			)
+
+			GROUP BY W.CUST_ID 
+		) PP3 ON C.ID = PP3.CUST_ID
+		
+		LEFT JOIN (
+			SELECT W.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_WECHAT W 
+			WHERE W.CUST_ID != '999999999'
+			AND W.MOMENT_DATE > DATE_SUB( CURDATE(), INTERVAL 3 MONTH ) 
+			AND (concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%轻松筹%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%水滴筹%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%援手%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%住院%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%健康%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%筹款%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%默哀%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%癌症%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%白血病%'
+			)
+
+			GROUP BY W.CUST_ID 
+		) PP4 ON C.ID = PP4.CUST_ID
+		
+		LEFT JOIN (
+			SELECT W.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_WECHAT W 
+			WHERE W.CUST_ID != '999999999'
+			AND W.MOMENT_DATE > DATE_SUB( CURDATE(), INTERVAL 3 MONTH ) 
+			AND (concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%元旦%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%除夕%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%春节%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%过年%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%清明%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%五一%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%劳动节%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%端午%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%七夕%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%中秋%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%十一%'
+				OR concat(IFNULL(W.MOMENT_TEXT, ''), IFNULL(W.MOMENT_LINK, '')) like '%国庆%'
+			)
+			
+			GROUP BY W.CUST_ID 
+		) PP5 ON C.ID = PP5.CUST_ID
+		
+		LEFT JOIN (
+			SELECT P.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_PHONE P 
+			WHERE CONTACT_DATE > DATE_SUB( CURDATE(), INTERVAL 1 MONTH ) 
+			GROUP BY P.CUST_ID 
+		) PP6 ON C.ID = PP6.CUST_ID
+		
+		LEFT JOIN (
+			SELECT P.CUST_ID,	count( 1 ) AS P_NUM 
+			FROM LP_DS_PHONE P 
+			WHERE CONTACT_DATE > DATE_SUB( CURDATE(), INTERVAL 1 MONTH )
+			and CONTACT_TYPE = '0'
+			GROUP BY P.CUST_ID 
+		) PP7 ON C.ID = PP7.CUST_ID
+		
+		LEFT JOIN (
+			SELECT P.CUST_ID,	ROUND(IFNULL(sum(P.CONTACT_DURATION), 0)/60, 2) AS P_NUM 
+			FROM LP_DS_PHONE P 
+			WHERE CONTACT_DATE > DATE_SUB( CURDATE(), INTERVAL 1 MONTH )
+			GROUP BY P.CUST_ID 
+		) PP8 ON C.ID = PP8.CUST_ID
+		
+		LEFT JOIN (
+			SELECT P.CUST_ID,	ROUND(IFNULL(sum(P.CONTACT_DURATION), 0)/60, 2) AS P_NUM 
+			FROM LP_DS_PHONE P 
+			WHERE CONTACT_DATE > DATE_SUB( CURDATE(), INTERVAL 1 MONTH )
+			and CONTACT_TYPE = '0'
+			GROUP BY P.CUST_ID 
+		) PP9 ON C.ID = PP9.CUST_ID
+		
+		WHERE 1 = 1
+		AND C.STATUS = '1'
+		<if test="custId != null and custId != ''">
+			AND C.ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID =  #{salesId,jdbcType=VARCHAR}
+		</if>
+	</insert>
+</mapper>

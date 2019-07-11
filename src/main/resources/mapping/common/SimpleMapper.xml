@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.comm.SimpleMapper">
+	<select id="executeSQL" parameterType="java.lang.String" resultType="java.util.HashMap">
+		${value}
+	</select>
+
+	<select id="select" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select ${ods_table_column_names} from ${ods_table_name}
+		<where>
+			<if test="branch != null and branch != ''">
+	        	and ${branchColum} = #{branch,jdbcType=VARCHAR}
+	      	</if>
+	      	<if test="where_date_sql != null and where_date_sql != ''" >
+	        	and (${where_date_sql})
+	      	</if>
+		</where>
+	</select>
+	
+	<select id="selectByPage" parameterType="java.util.Map" resultType="java.util.HashMap">
+		select ${ods_table_column_names} from ${ods_table_name}
+		<where>
+			1=1
+			<if test="branch != null and branch != ''">
+	        	and ${branchColum} = #{branch,jdbcType=VARCHAR}
+	      	</if>
+	      	<if test="where_date_sql != null and where_date_sql != ''" >
+	        	and (${where_date_sql})
+	      	</if>
+	      	<if test="where_upper_sql != null and where_upper_sql != ''" >
+	        	and (${where_upper_sql})
+	      	</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpMgntSuggestRuleMstMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpMgntSuggestRuleMst">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="ACT_TYPE_ID" property="actTypeId" jdbcType="VARCHAR" />
+		<result column="KEY_WORD" property="keyWord" jdbcType="VARCHAR" />
+		<result column="ACT_TEXT" property="actText" jdbcType="VARCHAR" />
+		<result column="VALUE_DATE" property="valueDate" jdbcType="VARCHAR" />
+		<result column="VALUE_DURATION" property="valueDuration" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+		<result column="NOTE" property="note" jdbcType="VARCHAR" />
+		<result column="NOTE1" property="note1" jdbcType="VARCHAR" />
+		<result column="NOTE2" property="note2" jdbcType="VARCHAR" />
+		<result column="NOTE3" property="note3" jdbcType="VARCHAR" />
+		<result column="NOTE4" property="note4" jdbcType="VARCHAR" />
+		<result column="NOTE5" property="note5" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, ACT_TYPE_ID, KEY_WORD, ACT_TEXT, VALUE_DATE, VALUE_DURATION,
+		CREATE_DATE, UPDATE_DATE, STATUS, NOTE, NOTE1, NOTE2, NOTE3, NOTE4, NOTE5
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_MGNT_SUGGEST_RULE_MST
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from LP_MGNT_SUGGEST_RULE_MST
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+
+	<insert id="insert" parameterType="com.ai.ringball.dao.biz.LpMgntSuggestRuleMst">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_MGNT_SUGGEST_RULE_MST (
+			ID, ACT_TYPE_ID, KEY_WORD,
+			ACT_TEXT, VALUE_DATE, VALUE_DURATION,
+			CREATE_DATE, UPDATE_DATE, STATUS,
+			NOTE, NOTE1, NOTE2,
+			NOTE3, NOTE4, NOTE5
+		)
+		values (
+			#{id,jdbcType=VARCHAR},
+			#{actTypeId,jdbcType=VARCHAR},
+			#{keyWord,jdbcType=VARCHAR},
+			#{actText,jdbcType=VARCHAR},
+			#{valueDate,jdbcType=VARCHAR},
+			#{valueDuration,jdbcType=VARCHAR},
+			#{createDate,jdbcType=TIMESTAMP},
+			#{updateDate,jdbcType=TIMESTAMP},
+			#{status,jdbcType=VARCHAR},
+			#{note,jdbcType=VARCHAR},
+			#{note1,jdbcType=VARCHAR},
+			#{note2,jdbcType=VARCHAR},
+			#{note3,jdbcType=VARCHAR},
+			#{note4,jdbcType=VARCHAR},
+			#{note5,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="insertSelective" parameterType="com.ai.ringball.dao.biz.LpMgntSuggestRuleMst">
+		<selectKey order="BEFORE" resultType="string" keyProperty="id">
+			select replace(uuid(), '-', '') from dual
+		</selectKey>
+		insert into LP_MGNT_SUGGEST_RULE_MST
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="actTypeId != null">
+				ACT_TYPE_ID,
+			</if>
+			<if test="keyWord != null">
+				KEY_WORD,
+			</if>
+			<if test="actText != null">
+				ACT_TEXT,
+			</if>
+			<if test="valueDate != null">
+				VALUE_DATE,
+			</if>
+			<if test="valueDuration != null">
+				VALUE_DURATION,
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE,
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="note != null">
+				NOTE,
+			</if>
+			<if test="note1 != null">
+				NOTE1,
+			</if>
+			<if test="note2 != null">
+				NOTE2,
+			</if>
+			<if test="note3 != null">
+				NOTE3,
+			</if>
+			<if test="note4 != null">
+				NOTE4,
+			</if>
+			<if test="note5 != null">
+				NOTE5,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="actTypeId != null">
+				#{actTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="keyWord != null">
+				#{keyWord,jdbcType=VARCHAR},
+			</if>
+			<if test="actText != null">
+				#{actText,jdbcType=VARCHAR},
+			</if>
+			<if test="valueDate != null">
+				#{valueDate,jdbcType=VARCHAR},
+			</if>
+			<if test="valueDuration != null">
+				#{valueDuration,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				#{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				#{status,jdbcType=VARCHAR},
+			</if>
+			<if test="note != null">
+				#{note,jdbcType=VARCHAR},
+			</if>
+			<if test="note1 != null">
+				#{note1,jdbcType=VARCHAR},
+			</if>
+			<if test="note2 != null">
+				#{note2,jdbcType=VARCHAR},
+			</if>
+			<if test="note3 != null">
+				#{note3,jdbcType=VARCHAR},
+			</if>
+			<if test="note4 != null">
+				#{note4,jdbcType=VARCHAR},
+			</if>
+			<if test="note5 != null">
+				#{note5,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="updateByPrimaryKeySelective" parameterType="com.ai.ringball.dao.biz.LpMgntSuggestRuleMst">
+		update LP_MGNT_SUGGEST_RULE_MST
+		<set>
+			<if test="actTypeId != null">
+				ACT_TYPE_ID = #{actTypeId,jdbcType=VARCHAR},
+			</if>
+			<if test="keyWord != null">
+				KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+			</if>
+			<if test="actText != null">
+				ACT_TEXT = #{actText,jdbcType=VARCHAR},
+			</if>
+			<if test="valueDate != null">
+				VALUE_DATE = #{valueDate,jdbcType=VARCHAR},
+			</if>
+			<if test="valueDuration != null">
+				VALUE_DURATION = #{valueDuration,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateDate != null">
+				UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="status != null">
+				STATUS = #{status,jdbcType=VARCHAR},
+			</if>
+			<if test="note != null">
+				NOTE = #{note,jdbcType=VARCHAR},
+			</if>
+			<if test="note1 != null">
+				NOTE1 = #{note1,jdbcType=VARCHAR},
+			</if>
+			<if test="note2 != null">
+				NOTE2 = #{note2,jdbcType=VARCHAR},
+			</if>
+			<if test="note3 != null">
+				NOTE3 = #{note3,jdbcType=VARCHAR},
+			</if>
+			<if test="note4 != null">
+				NOTE4 = #{note4,jdbcType=VARCHAR},
+			</if>
+			<if test="note5 != null">
+				NOTE5 = #{note5,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateByPrimaryKey" parameterType="com.ai.ringball.dao.biz.LpMgntSuggestRuleMst">
+		update LP_MGNT_SUGGEST_RULE_MST
+		set ACT_TYPE_ID = #{actTypeId,jdbcType=VARCHAR},
+			KEY_WORD = #{keyWord,jdbcType=VARCHAR},
+			ACT_TEXT = #{actText,jdbcType=VARCHAR},
+			VALUE_DATE = #{valueDate,jdbcType=VARCHAR},
+			VALUE_DURATION = #{valueDuration,jdbcType=VARCHAR},
+			CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+			UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+			STATUS = #{status,jdbcType=VARCHAR},
+			NOTE = #{note,jdbcType=VARCHAR},
+			NOTE1 = #{note1,jdbcType=VARCHAR},
+			NOTE2 = #{note2,jdbcType=VARCHAR},
+			NOTE3 = #{note3,jdbcType=VARCHAR},
+			NOTE4 = #{note4,jdbcType=VARCHAR},
+			NOTE5 = #{note5,jdbcType=VARCHAR}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from LP_MGNT_SUGGEST_RULE_MST SR
+		WHERE SR.STATUS = '1'
+	</select>
+</mapper>

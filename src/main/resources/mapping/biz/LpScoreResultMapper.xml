@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpScoreResultMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpScoreResult">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="SCORE" property="score" jdbcType="DECIMAL" />
+		<result column="LATEST_FLG" property="latestFlg" jdbcType="VARCHAR" />
+		<result column="MODULE_VER" property="moduleVer" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, CUST_ID, SCORE, LATEST_FLG, MODULE_VER, CREATE_DATE, UPDATE_DATE,
+		STATUS
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_SCORE_RESULT
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from LP_SCORE_RESULT
+	</select>
+	
+	<update id="update2OldData" parameterType="map">
+		UPDATE LP_SCORE_RESULT SR
+		SET SR.LATEST_FLG = '0'
+		WHERE SR.LATEST_FLG = '1'
+		<if test="custId != null and custId != ''">
+			AND SR.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SR.CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</update>
+	
+	<insert id="insertRecords" parameterType="map">
+		INSERT INTO LP_SCORE_RESULT (
+			ID, CUST_ID, SCORE, LATEST_FLG, MODULE_VER,
+			CREATE_DATE, UPDATE_DATE, STATUS
+		)
+		SELECT replace(uuid(), '-', '') AS ID,
+			TP.CUST_ID,
+			case when ROUND(TP.SCORE, 0) > 100 THEN 100 ELSE ROUND(TP.SCORE, 0) END AS SCORE,
+			'1' AS LATEST_FLG,
+			#{moduleVer,jdbcType=VARCHAR} AS MODULE_VER,
+			now() AS CREATE_DATE,
+			now() AS UPDATE_DATE,
+			'1' AS STATUS
+		FROM (
+			SELECT I.CUST_ID,
+				SUM(I.SCORE/IT.TOTLE*IT.SCALE_FACTOR) AS SCORE
+			FROM LP_SCORE_INDEX_MID I
+			LEFT JOIN LP_MGNT_INDEX_TYPE_MST IT on I.SCORE_TYPE = IT.TYPE_CODE
+			LEFT JOIN LP_MGNT_SALES_CUST SC ON I.CUST_ID = SC.CUST_ID
+			WHERE I.LATEST_FLG = '1'
+			AND I.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+			<if test="custId != null and custId != ''">
+				AND I.CUST_ID = #{custId,jdbcType=VARCHAR}
+			</if>
+			<if test="salesId != null and salesId != ''">
+				AND SC.SALES_ID =  #{salesId,jdbcType=VARCHAR}
+			</if>
+			GROUP BY I.CUST_ID
+		) TP
+	</insert>
+	
+	<update id="updateScoreResult4Relatives" parameterType="map">
+		UPDATE LP_SCORE_RESULT SR
+		SET SR.SCORE = 10
+		WHERE SR.LATEST_FLG = '1'
+		AND SR.CUST_ID in (
+			SELECT C.ID FROM LP_MGNT_CUST_MST C
+			WHERE C.STATUS = '1'
+			AND (
+				(CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%老婆%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%老爸%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%老妈%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%爸爸%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%妈妈%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%姑姑%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%叔叔%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%大伯%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%姐姐%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%妹妹%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%弟弟%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%哥哥%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%宝贝%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%宝宝%'
+				OR (CASE WHEN C.SRC='1' THEN IFNULL(IFNULL(C.WECHAT_MEMO, C.WECHAT_NM), '') ELSE IFNULL(C.PHONE_NM,'') END) like '%亲爱%'
+				OR C.EXT_AGE_FROM > 55
+				OR C.EXT_AGE_TO &lt; 23
+			)
+		)
+	
+		<if test="custId != null and custId != ''">
+			AND SR.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SR.CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</update>
+	
+	<update id="updateScoreResult4ContactCntL1m" parameterType="map">
+		UPDATE LP_SCORE_RESULT SR
+		SET SR.SCORE = 20
+		WHERE SR.LATEST_FLG = '1'
+		AND SR.CUST_ID in (
+			SELECT M.CUST_ID FROM LP_DS_MODEL_DATA M
+			WHERE M.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+			AND M.CONTACT_CNT_L1M > 10
+		)
+	
+		<if test="custId != null and custId != ''">
+			AND SR.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SR.CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</update>
+	
+	<update id="updateScoreResult4IsPhaseContact" parameterType="map">
+		UPDATE LP_SCORE_RESULT SR
+		SET SR.SCORE = 30
+		WHERE SR.LATEST_FLG = '1'
+		AND SR.CUST_ID in (
+			select M.CUST_ID from LP_DS_MODEL_DATA M
+			where M.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+			and M.IS_PHASE_CONTACT = '3'
+		)
+	
+		<if test="custId != null and custId != ''">
+			AND SR.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SR.CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</update>
+	
+	<select id="selectMongoData" parameterType="java.util.Map" resultType="java.util.LinkedHashMap">
+		SELECT 
+			SR.ID AS score_id,
+			SC.SALES_ID AS sales_id,
+			SR.CUST_ID AS cust_id,
+			SR.SCORE AS score,
+			IFNULL(SL.SCORE_LABEL1, '') AS score_label1,
+			IFNULL(SL.SCORE_LABEL2, '') AS score_label2,
+			IFNULL(SL.SCORE_LABEL3, '') AS score_label3,
+			IFNULL(SL.SCORE_LABEL4, '') AS score_label4,
+			IFNULL(SL.SCORE_LABEL5, '') AS score_label5,
+			IFNULL(SL.SCORE_LABEL6, '') AS score_label6,
+			IFNULL(SL.SCORE_LABEL7, '') AS score_label7,
+			IFNULL(SL.SCORE_LABEL8, '') AS score_label8,
+			IFNULL(SL.SCORE_LABEL9, '') AS score_label9,
+			IFNULL(SL.SCORE_LABEL10, '') AS score_label10,
+			SR.MODULE_VER AS module_ver,
+			date_format(SR.CREATE_DATE, '%Y-%m-%d %H:%i:%s') AS create_date,
+			date_format(SR.UPDATE_DATE, '%Y-%m-%d %H:%i:%s') AS update_date,
+			SR.STATUS AS status
+		FROM LP_SCORE_RESULT SR
+		LEFT JOIN LP_SCORE_LABEL SL ON SR.ID = SL.SCORE_ID
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON SR.CUST_ID = SC.CUST_ID
+		WHERE 1 = 1
+		AND SR.LATEST_FLG = '1'
+		<if test="custId != null and custId != ''">
+			AND SR.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+		</if>
+	</select>
+</mapper>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpScoreLabelMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpScoreLabel">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="SCORE_ID" property="scoreId" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL1" property="scoreLabel1" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL2" property="scoreLabel2" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL3" property="scoreLabel3" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL4" property="scoreLabel4" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL5" property="scoreLabel5" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL6" property="scoreLabel6" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL7" property="scoreLabel7" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL8" property="scoreLabel8" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL9" property="scoreLabel9" jdbcType="VARCHAR" />
+		<result column="SCORE_LABEL10" property="scoreLabel10" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+		<result column="STATUS" property="status" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, SCORE_ID, SCORE_LABEL1, SCORE_LABEL2, SCORE_LABEL3, SCORE_LABEL4,
+		SCORE_LABEL5, SCORE_LABEL6, SCORE_LABEL7, SCORE_LABEL8, SCORE_LABEL9,
+		SCORE_LABEL10, CREATE_DATE,	UPDATE_DATE, STATUS
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_SCORE_LABEL
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select
+		<include refid="Base_Column_List" />
+		from LP_SCORE_LABEL
+	</select>
+	
+	<insert id="insertRecords" parameterType="map">
+		INSERT INTO LP_SCORE_LABEL (
+			ID, SCORE_ID, SCORE_LABEL1, SCORE_LABEL2, SCORE_LABEL3, SCORE_LABEL4,
+			SCORE_LABEL5, SCORE_LABEL6, SCORE_LABEL7, SCORE_LABEL8, SCORE_LABEL9,
+			SCORE_LABEL10, CREATE_DATE,	UPDATE_DATE, STATUS
+		)
+		
+		SELECT replace(uuid(), '-', '') AS ID,
+			SR.ID AS SCORE_ID,
+			case when M.CAR = '1' OR M.EXT_CONSUMPTION = '2' OR M.EXT_LIKE_FINANCE = '2' THEN '高资产' END AS SCORE_LABEL1,
+			CONCAT(case when M.MARRIAGE = '1' or M.MAR_EVT_CNT_L3M > 0 then '已婚' ELSE '未婚' end, case when M.CHILD = '1' or M.CHILD_EVT_CNT_L3M > 0 or M.EXT_LIKE_CHILD IS NOT NULL then '有孩子' ELSE '' end) as SCORE_LABEL2,
+			CONCAT(case when M.HOUSE = '1' then '有房' ELSE '' end, case when M.CAR = '1' then '有车' ELSE '' end) as SCORE_LABEL3,
+			case when M.EXT_CONSUMPTION in ('1', '2') then '消费达人' end as SCORE_LABEL4,
+			case when M.HEALTH_CHECK_FIN = '1' OR M.EXT_LIKE_HEALTH in ('1', '2') then '关注健康' end as SCORE_LABEL5,
+			M.PROFESSION as SCORE_LABEL6,
+			case when M.EXT_LIKE_FINANCE IS NOT NULL then '商务人士' end as SCORE_LABEL7,
+			case when M.EXT_LIKE_FINANCE IS NOT NULL then '关注理财' end as SCORE_LABEL8,
+			case when M.EXT_AGE_FROM >= 45 then '稳重中年' when M.EXT_AGE_FROM >= 25 and M.EXT_AGE_FROM &lt; 45 then '上进青年' end AS SCORE_LABEL9,
+			case when M.WECHAT_CNT_L1M > 15 then '社交达人' end AS SCORE_LABEL10,
+			now() AS CREATE_DATE,
+			now() AS UPDATE_DATE,
+			'1' AS STATUS
+		
+		FROM LP_DS_MODEL_DATA M
+		LEFT JOIN LP_SCORE_RESULT SR ON M.CUST_ID = SR.CUST_ID
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON M.CUST_ID = SC.CUST_ID
+		WHERE SR.LATEST_FLG = '1'
+		and M.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND M.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID =  #{salesId,jdbcType=VARCHAR}
+		</if>
+	</insert>
+</mapper>

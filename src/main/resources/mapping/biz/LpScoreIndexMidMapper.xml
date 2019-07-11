@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpScoreIndexMidMapper">
+
+	<resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpScoreIndexMid">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+		<result column="DATA_DATE" property="dataDate" jdbcType="VARCHAR" />
+		<result column="SCORE_TYPE" property="scoreType" jdbcType="VARCHAR" />
+		<result column="SCORE_CODE" property="scoreCode" jdbcType="VARCHAR" />
+		<result column="SCORE_NAME" property="scoreName" jdbcType="VARCHAR" />
+		<result column="SCORE" property="score" jdbcType="DECIMAL" />
+		<result column="LATEST_FLG" property="latestFlg" jdbcType="VARCHAR" />
+		<result column="MODULE_VER" property="moduleVer" jdbcType="VARCHAR" />
+		<result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+		<result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+	</resultMap>
+
+	<sql id="Base_Column_List">
+		ID, CUST_ID, DATA_DATE, SCORE_TYPE, SCORE_CODE, SCORE_NAME, SCORE,
+		LATEST_FLG,	MODULE_VER, CREATE_DATE, UPDATE_DATE
+	</sql>
+
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String">
+		select 'true' as QUERYID,
+		<include refid="Base_Column_List" />
+		from LP_SCORE_INDEX_MID
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map">
+		select I.*
+		from LP_SCORE_INDEX_MID I
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON I.CUST_ID = SC.CUST_ID
+		WHERE I.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND I.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID =  #{salesId,jdbcType=VARCHAR}
+		</if>
+	</select>
+	
+	<delete id="deleteOldData" parameterType="map">
+		DELETE FROM LP_SCORE_INDEX_MID
+		WHERE DATA_DATE= #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND CUST_ID IN (
+				SELECT SC.CUST_ID FROM LP_MGNT_SALES_CUST SC
+				WHERE SC.SALES_ID = #{salesId,jdbcType=VARCHAR}
+			)
+		</if>
+	</delete>
+	
+	<insert id="insertRecords" parameterType="map">
+		INSERT INTO LP_SCORE_INDEX_MID (
+			ID, CUST_ID, DATA_DATE, SCORE_TYPE,
+			SCORE_CODE, SCORE_NAME, SCORE,
+			LATEST_FLG, MODULE_VER, CREATE_DATE,
+			UPDATE_DATE
+		)
+		
+		SELECT replace(uuid(), '-', '') AS ID,
+			M.CUST_ID,
+			M.DATA_DATE,
+			#{indexType,jdbcType=VARCHAR} AS SCORE_TYPE,
+			#{indexCode,jdbcType=VARCHAR} AS SCORE_CODE,
+			#{indexName,jdbcType=VARCHAR} AS SCORE_NAME,
+			${indexSql} AS SCORE,
+			'1' AS LATEST_FLG,
+			#{moduleVer,jdbcType=VARCHAR} AS MODULE_VER,
+			now() AS CREATE_DATE,
+			now() AS UPDATE_DATE
+		
+		FROM LP_DS_MODEL_DATA M
+		LEFT JOIN (select * from LP_MGNT_CUST_MST where STATUS = '1') C ON M.CUST_ID = C.ID
+		LEFT JOIN LP_MGNT_SALES_CUST SC ON C.ID = SC.CUST_ID
+		WHERE M.DATA_DATE = #{dataDate,jdbcType=VARCHAR}
+		<if test="custId != null and custId != ''">
+			AND M.CUST_ID = #{custId,jdbcType=VARCHAR}
+		</if>
+		<if test="salesId != null and salesId != ''">
+			AND SC.SALES_ID =  #{salesId,jdbcType=VARCHAR}
+		</if>
+	</insert>
+</mapper>

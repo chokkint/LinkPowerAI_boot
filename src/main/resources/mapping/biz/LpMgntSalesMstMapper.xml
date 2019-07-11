@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.ai.ringball.mapper.biz.LpMgntSalesMstMapper" >
+  
+  <resultMap id="BaseResultMap" type="com.ai.ringball.dao.biz.LpMgntSalesMst" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="LOGIN_ID" property="loginId" jdbcType="VARCHAR" />
+    <result column="USER_NM" property="userNm" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="LAST_LOGIN" property="lastLogin" jdbcType="TIMESTAMP" />
+    <result column="HEAD_IMG" property="headImg" jdbcType="VARCHAR" />
+    <result column="TEL_NO" property="telNo" jdbcType="VARCHAR" />
+    <result column="WECHAT_NO" property="wechatNo" jdbcType="VARCHAR" />
+    <result column="PROFILE" property="profile" jdbcType="VARCHAR" />
+    <result column="SEX" property="sex" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="LOCATION_CITY" property="locationCity" jdbcType="VARCHAR" />
+    <result column="LOCATION_DETAIL" property="locationDetail" jdbcType="VARCHAR" />
+    <result column="COMPANY" property="company" jdbcType="VARCHAR" />
+    <result column="DEPARTMENT" property="department" jdbcType="VARCHAR" />
+    <result column="POSITION_TITLE" property="positionTitle" jdbcType="VARCHAR" />
+    <result column="WORK_DATE_START" property="workDateStart" jdbcType="DATE" />
+    <result column="USER_SN" property="userSn" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ISUSED" property="isused" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+    ID, LOGIN_ID, USER_NM, LOGIN_PWD, LAST_LOGIN, HEAD_IMG, TEL_NO, WECHAT_NO, PROFILE, 
+    SEX, BIRTHDAY, LOCATION_CITY, LOCATION_DETAIL, COMPANY, DEPARTMENT, POSITION_TITLE, 
+    WORK_DATE_START, USER_SN, CREATE_DATE, UPDATE_DATE, STATUS, ISUSED
+  </sql>
+  
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'true' as QUERYID,
+    <include refid="Base_Column_List" />
+    from LP_MGNT_SALES_MST
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from LP_MGNT_SALES_MST
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  
+  <insert id="insert" parameterType="com.ai.ringball.dao.biz.LpMgntSalesMst" >
+    <selectKey order="BEFORE" resultType="string" keyProperty="id" >
+      select sys_guid() from dual
+    </selectKey>
+    insert into LP_MGNT_SALES_MST (ID, LOGIN_ID, USER_NM, 
+      LOGIN_PWD, LAST_LOGIN, HEAD_IMG, 
+      TEL_NO, WECHAT_NO, PROFILE, 
+      SEX, BIRTHDAY, LOCATION_CITY, 
+      LOCATION_DETAIL, COMPANY, DEPARTMENT, 
+      POSITION_TITLE, WORK_DATE_START, USER_SN, 
+      CREATE_DATE, UPDATE_DATE, STATUS, 
+      ISUSED)
+    values (#{id,jdbcType=VARCHAR}, #{loginId,jdbcType=VARCHAR}, #{userNm,jdbcType=VARCHAR}, 
+      #{loginPwd,jdbcType=VARCHAR}, #{lastLogin,jdbcType=TIMESTAMP}, #{headImg,jdbcType=VARCHAR}, 
+      #{telNo,jdbcType=VARCHAR}, #{wechatNo,jdbcType=VARCHAR}, #{profile,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{locationCity,jdbcType=VARCHAR}, 
+      #{locationDetail,jdbcType=VARCHAR}, #{company,jdbcType=VARCHAR}, #{department,jdbcType=VARCHAR}, 
+      #{positionTitle,jdbcType=VARCHAR}, #{workDateStart,jdbcType=DATE}, #{userSn,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{updateDate,jdbcType=TIMESTAMP}, #{status,jdbcType=VARCHAR}, 
+      #{isused,jdbcType=VARCHAR})
+  </insert>
+  
+  <insert id="insertSelective" parameterType="com.ai.ringball.dao.biz.LpMgntSalesMst" >
+    <selectKey order="BEFORE" resultType="string" keyProperty="id" >
+      select sys_guid() from dual
+    </selectKey>
+    insert into LP_MGNT_SALES_MST
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="loginId != null" >
+        LOGIN_ID,
+      </if>
+      <if test="userNm != null" >
+        USER_NM,
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD,
+      </if>
+      <if test="lastLogin != null" >
+        LAST_LOGIN,
+      </if>
+      <if test="headImg != null" >
+        HEAD_IMG,
+      </if>
+      <if test="telNo != null" >
+        TEL_NO,
+      </if>
+      <if test="wechatNo != null" >
+        WECHAT_NO,
+      </if>
+      <if test="profile != null" >
+        PROFILE,
+      </if>
+      <if test="sex != null" >
+        SEX,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="locationCity != null" >
+        LOCATION_CITY,
+      </if>
+      <if test="locationDetail != null" >
+        LOCATION_DETAIL,
+      </if>
+      <if test="company != null" >
+        COMPANY,
+      </if>
+      <if test="department != null" >
+        DEPARTMENT,
+      </if>
+      <if test="positionTitle != null" >
+        POSITION_TITLE,
+      </if>
+      <if test="workDateStart != null" >
+        WORK_DATE_START,
+      </if>
+      <if test="userSn != null" >
+        USER_SN,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isused != null" >
+        ISUSED,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="loginId != null" >
+        #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="userNm != null" >
+        #{userNm,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null" >
+        #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headImg != null" >
+        #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="telNo != null" >
+        #{telNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo != null" >
+        #{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="locationCity != null" >
+        #{locationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="locationDetail != null" >
+        #{locationDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTitle != null" >
+        #{positionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="workDateStart != null" >
+        #{workDateStart,jdbcType=DATE},
+      </if>
+      <if test="userSn != null" >
+        #{userSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isused != null" >
+        #{isused,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  
+  <update id="updateByPrimaryKeySelective" parameterType="com.ai.ringball.dao.biz.LpMgntSalesMst" >
+    update LP_MGNT_SALES_MST
+    <set >
+      <if test="loginId != null" >
+        LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      </if>
+      <if test="userNm != null" >
+        USER_NM = #{userNm,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="lastLogin != null" >
+        LAST_LOGIN = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+      <if test="headImg != null" >
+        HEAD_IMG = #{headImg,jdbcType=VARCHAR},
+      </if>
+      <if test="telNo != null" >
+        TEL_NO = #{telNo,jdbcType=VARCHAR},
+      </if>
+      <if test="wechatNo != null" >
+        WECHAT_NO = #{wechatNo,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        PROFILE = #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null" >
+        SEX = #{sex,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="locationCity != null" >
+        LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      </if>
+      <if test="locationDetail != null" >
+        LOCATION_DETAIL = #{locationDetail,jdbcType=VARCHAR},
+      </if>
+      <if test="company != null" >
+        COMPANY = #{company,jdbcType=VARCHAR},
+      </if>
+      <if test="department != null" >
+        DEPARTMENT = #{department,jdbcType=VARCHAR},
+      </if>
+      <if test="positionTitle != null" >
+        POSITION_TITLE = #{positionTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="workDateStart != null" >
+        WORK_DATE_START = #{workDateStart,jdbcType=DATE},
+      </if>
+      <if test="userSn != null" >
+        USER_SN = #{userSn,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isused != null" >
+        ISUSED = #{isused,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <update id="updateByPrimaryKey" parameterType="com.ai.ringball.dao.biz.LpMgntSalesMst" >
+    update LP_MGNT_SALES_MST
+    set LOGIN_ID = #{loginId,jdbcType=VARCHAR},
+      USER_NM = #{userNm,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      LAST_LOGIN = #{lastLogin,jdbcType=TIMESTAMP},
+      HEAD_IMG = #{headImg,jdbcType=VARCHAR},
+      TEL_NO = #{telNo,jdbcType=VARCHAR},
+      WECHAT_NO = #{wechatNo,jdbcType=VARCHAR},
+      PROFILE = #{profile,jdbcType=VARCHAR},
+      SEX = #{sex,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=DATE},
+      LOCATION_CITY = #{locationCity,jdbcType=VARCHAR},
+      LOCATION_DETAIL = #{locationDetail,jdbcType=VARCHAR},
+      COMPANY = #{company,jdbcType=VARCHAR},
+      DEPARTMENT = #{department,jdbcType=VARCHAR},
+      POSITION_TITLE = #{positionTitle,jdbcType=VARCHAR},
+      WORK_DATE_START = #{workDateStart,jdbcType=DATE},
+      USER_SN = #{userSn,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ISUSED = #{isused,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAllByPage" resultMap="BaseResultMap" parameterType="map" >
+    select 
+    <include refid="Base_Column_List" />
+    from LP_MGNT_SALES_MST
+  </select>
+</mapper>

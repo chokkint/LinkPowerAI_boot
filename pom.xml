@@ -30,7 +30,7 @@
         <java.version>1.8</java.version>
         <shiro.version>1.2.4</shiro.version>
         <poi.version>3.17</poi.version>
-        <jackson.version>2.6.7</jackson.version>
+        <jackson.version>2.12.1</jackson.version>
         <mysql.version>8.0.12</mysql.version>
     </properties>
 
